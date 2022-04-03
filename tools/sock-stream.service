@@ -1,0 +1,12 @@
+[Unit]
+Description=Simple socket stream demo application.
+
+[Service]
+Type=simple
+ExecStart=/tmp/socket-stream/bin/unix_socket_stream
+StandardError=journal
+StandardOutput=journal
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
