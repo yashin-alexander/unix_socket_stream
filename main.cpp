@@ -8,8 +8,10 @@
 #include <unistd.h>
 #include <signal.h>
 
+#include "logic.h"
+
 const char* SOCKET_NAME = "/tmp/example";
-const int MSG_SIZE = sizeof(uint16_t);
+const int MSG_SIZE = sizeof(int16_t);
 
 
 static struct sigaction sa;
@@ -23,6 +25,9 @@ void signal_handler(int signum){
 
 int main()
 {
+
+    Logic *logic = new Logic();
+
     struct sockaddr_un name;
     int down_flag = 0;
     int ret;
@@ -100,10 +105,7 @@ int main()
 
             input_num = *(int16_t *)buffer;
             std::cout << "New data received: " << input_num << std::endl;
-            if ((buffer[0] == '0') and (buffer[1] == '0')){
-                down_flag = true;
-                break;
-            }
+            logic->add_number(input_num);
         }
         close(data_socket);
         if (down_flag) {
